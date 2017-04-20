@@ -1,4 +1,4 @@
-package uebung1_aufgabe4;
+package main.robotik;
 
 public enum TouchSensorStatus {
 	RIGHT, LEFT, BOTH, NOTHING

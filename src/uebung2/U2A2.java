@@ -1,9 +1,11 @@
-package uebung1_aufgabe4;
+package uebung2;
 
 import lejos.nxt.SensorPort;
 import lejos.nxt.TouchSensor;
+import main.robotik.Driver;
+import main.robotik.TouchSensorStatus;
 
-public class Uebung2 {
+public class U2A2 {
 
 	private int maxCounter;
 	private final int degrees = 5;

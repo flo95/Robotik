@@ -1,4 +1,4 @@
-package uebung1_aufgabe4;
+package main.robotik;
 
 import lejos.nxt.Motor;
 import lejos.robotics.navigation.DifferentialPilot;
