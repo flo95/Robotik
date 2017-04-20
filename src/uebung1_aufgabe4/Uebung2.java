@@ -5,17 +5,17 @@ import lejos.nxt.TouchSensor;
 
 public class Uebung2 {
 
-	private static int maxCounter;
-	private static final int degrees = 5;
-	private static TouchSensor rigth;
-	private static TouchSensor left;
-	private static Driver driver;
-	private static TouchSensorStatus status;
-	private static int hitCounter;
-	private static int counter;
-	private static int noWallDegree = 5;
+	private int maxCounter;
+	private final int degrees = 5;
+	private TouchSensor rigth;
+	private TouchSensor left;
+	private Driver driver;
+	private TouchSensorStatus status;
+	private int hitCounter;
+	private int counter;
+	private int noWallDegree = 5;
 
-	public static void run() {
+	public void run() {
 		status = TouchSensorStatus.NOTHING;
 		hitCounter = 0;
 		rigth = new TouchSensor(SensorPort.S1);
@@ -28,7 +28,7 @@ public class Uebung2 {
 	/**
 	 * Aufgabe 2
 	 */
-	private static void driveKrötenwanderung() {
+	private void driveKrötenwanderung() {
 		while (true) {
 			driver.forward();
 			hitCounter++;

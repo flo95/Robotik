@@ -1,14 +1,14 @@
 package uebung1_aufgabe4;
 
 public class Uebung1 {
-	public static void run() {
+	public void run() {
 		driveHausVomNikolaus();
 	}
 
 	/**
 	 * Aufgabe 6
 	 */
-	private static void driveHausVomNikolaus() {
+	private void driveHausVomNikolaus() {
 		Driver driver = Driver.getInstance();
 		driver.driveCentimeters(50);
 		driver.rotateRightDegrees(135);
