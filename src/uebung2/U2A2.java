@@ -24,13 +24,13 @@ public class U2A2 {
 		left = new TouchSensor(SensorPort.S2);
 		driver = Driver.getInstance();
 		maxCounter = 200;
-		driveKrötenwanderung();
+		driveKroetenwanderung();
 	}
 
 	/**
 	 * Aufgabe 2
 	 */
-	private void driveKrötenwanderung() {
+	private void driveKroetenwanderung() {
 		while (true) {
 			driver.forward();
 			hitCounter++;
