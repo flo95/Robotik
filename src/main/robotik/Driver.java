@@ -10,8 +10,8 @@ public class Driver {
 
 	private Driver() {
 		pilot = new DifferentialPilot(56, 120, Motor.A, Motor.B);
-		pilot.setTravelSpeed(100);
-		pilot.setRotateSpeed(15);
+		pilot.setTravelSpeed(200);
+		pilot.setRotateSpeed(200);
 	}
 
 	public static Driver getInstance() {

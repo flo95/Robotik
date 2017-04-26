@@ -7,20 +7,34 @@ import main.robotik.Driver;
 
 public class U3A1 {
 
-	private TouchSensor rigth;
-	private TouchSensor left;
 	private Driver driver;
+	private UltraSonicSensorExtended ultraSensor;
+	private SensorPortListener rightListener;
+	private SensorPortListener leftListener;
+	private boolean firstWallHit;
 
 	public void run() {
-		rigth = new TouchSensor(SensorPort.S1);
-		left = new TouchSensor(SensorPort.S2);
 		driver = Driver.getInstance();
+		firstWallHit = false;
+
 		driver.forward();
-		SensorPortListener rightListener = new RightTouchSensorListener(rigth.isPressed());
-		SensorPortListener leftListener = new LeftTouchSensorListener();
+
+		while (!firstWallHit) {
+			if (new TouchSensor(SensorPort.S1).isPressed() || new TouchSensor(SensorPort.S2).isPressed()) {
+				firstWallHit = true;
+			}
+		}
+
+		rightListener = new RightTouchSensorListener();
+		leftListener = new LeftTouchSensorListener();
+		ultraSensor = new UltraSonicSensorExtended(SensorPort.S3);
 
 		SensorPort.S1.addSensorPortListener(rightListener);
 		SensorPort.S2.addSensorPortListener(leftListener);
+
+		UltraSensorListener aListener = new UltraSensorListener();
+		ultraSensor.addSensorPortListener(aListener);
+
 		driveKroetenwanderung();
 	}
 
@@ -28,8 +42,13 @@ public class U3A1 {
 	 * Aufgabe 2
 	 */
 	private void driveKroetenwanderung() {
+		int olddistance = 0;
+		int newDistance = 1;
 		while (true) {
-
+			newDistance = ultraSensor.getDistance();
+			ultraSensor.newValue(newDistance);
+			olddistance = newDistance;
+			rightListener.stateChanged(SensorPort.S1, 0, 0);
 		}
 	}
 

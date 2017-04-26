@@ -2,21 +2,22 @@ package uebung3.aufgabe1;
 
 import lejos.nxt.SensorPort;
 import lejos.nxt.SensorPortListener;
+import lejos.nxt.TouchSensor;
 import main.robotik.Driver;
 
 public class RightTouchSensorListener implements SensorPortListener {
 
 	private Driver driver;
-	private boolean pressed;
+	private TouchSensor rigth;
 
-	public RightTouchSensorListener(boolean pressed) {
-		this.pressed = pressed;
+	public RightTouchSensorListener() {
+		rigth = new TouchSensor(SensorPort.S1);
 		driver = Driver.getInstance();
 	}
 
 	@Override
 	public void stateChanged(SensorPort aSource, int aOldValue, int aNewValue) {
-		if (pressed) {
+		if (rigth.isPressed()) {
 			driver.rotateLeftDegrees(15);
 			driver.driveLeftCurve();
 		} else {
