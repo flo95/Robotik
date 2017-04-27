@@ -18,9 +18,10 @@ public class U3A1 {
 		firstWallHit = false;
 
 		driver.forward();
-
+		TouchSensor rigth = new TouchSensor(SensorPort.S1);
+		TouchSensor left = new TouchSensor(SensorPort.S2);
 		while (!firstWallHit) {
-			if (new TouchSensor(SensorPort.S1).isPressed() || new TouchSensor(SensorPort.S2).isPressed()) {
+			if (rigth.isPressed() || left.isPressed()) {
 				firstWallHit = true;
 			}
 		}
