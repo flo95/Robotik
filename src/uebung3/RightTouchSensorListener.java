@@ -1,4 +1,4 @@
-package uebung3.aufgabe1;
+package uebung3;
 
 import lejos.nxt.SensorPort;
 import lejos.nxt.SensorPortListener;
