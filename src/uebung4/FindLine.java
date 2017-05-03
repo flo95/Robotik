@@ -36,32 +36,27 @@ public class FindLine implements Behavior {
 		System.out.println("light: " + lightSensor.getLightValue());
 		System.out.println("counter: " + counter);
 		System.out.println("last was right " + lastWasRight);
+		int degree = 3;
 		if (lastWasRight) {
 			if (counter < rotateBorder) {
-				driver.rotateRightDegrees(1);
+				driver.rotateRightDegrees(degree);
 			} else {
 				lastWasRight = false;
 				System.out.println("aendere lastwasRight = " + lastWasRight);
-				driver.rotateLeftDegrees(1);
+				driver.rotateLeftDegrees(degree);
 				counter = -20;
 			}
 		} else {
 			if (counter < rotateBorder) {
-				driver.rotateLeftDegrees(1);
+				driver.rotateLeftDegrees(degree);
 			} else {
 				lastWasRight = true;
 				System.out.println("aendere lastwasRight = " + lastWasRight);
-				driver.rotateRightDegrees(1);
+				driver.rotateRightDegrees(degree);
 				counter = -20;
 			}
 		}
 		counter++;
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	@Override
