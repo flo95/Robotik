@@ -15,6 +15,7 @@ public class Linienfolger {
 		Behavior[] behaviorArray = { forward, findLine };
 		Arbitrator arbitrator = new Arbitrator(behaviorArray);
 		arbitrator.start();
+		
 	}
 
 }
