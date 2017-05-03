@@ -18,7 +18,7 @@ public class DriveForward implements Behavior {
 
 	@Override
 	public void action() {
-		System.out.println("DriveForward statr");
+		System.out.println("DriveForward start");
 		driver.forward();
 	}
 

@@ -15,11 +15,6 @@ public class Linienfolger {
 		Behavior[] behaviorArray = { forward, findLine };
 		Arbitrator arbitrator = new Arbitrator(behaviorArray);
 		arbitrator.start();
-		// Zustände: vorwärts fahren, zum Mittelpunkt der linie navigieren
-//		LightSensor followLineListener = new LightSensor(SensorPort.S1);
-//		while (true) {
-//			System.out.println(followLineListener.getLightValue());
-//		}
 	}
 
 }

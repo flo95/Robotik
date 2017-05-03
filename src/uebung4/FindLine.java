@@ -11,13 +11,15 @@ public class FindLine implements Behavior {
 	private int border;
 	private Driver driver;
 	private int counter;
+	private int rotateBorder;
 	boolean lastWasRight;
 
 	public FindLine() {
 		driver = Driver.getInstance();
 		lightSensor = new LightSensor(SensorPort.S1);
 		border = 50;
-		counter = 1;
+		counter = 0;
+		rotateBorder = 20;
 		lastWasRight = true;
 	}
 
@@ -33,24 +35,33 @@ public class FindLine implements Behavior {
 	public void action() {
 		System.out.println("light: " + lightSensor.getLightValue());
 		System.out.println("counter: " + counter);
+		System.out.println("last was right " + lastWasRight);
 		if (lastWasRight) {
-			if (counter < 20) {
-				lastWasRight = true;
+			if (counter < rotateBorder) {
 				driver.rotateRightDegrees(1);
 			} else {
 				lastWasRight = false;
+				System.out.println("aendere lastwasRight = " + lastWasRight);
 				driver.rotateLeftDegrees(1);
+				counter = -20;
 			}
 		} else {
-			if (counter < 20) {
+			if (counter < rotateBorder) {
 				driver.rotateLeftDegrees(1);
-				lastWasRight = true;
 			} else {
-				lastWasRight = false;
+				lastWasRight = true;
+				System.out.println("aendere lastwasRight = " + lastWasRight);
 				driver.rotateRightDegrees(1);
+				counter = -20;
 			}
 		}
 		counter++;
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
