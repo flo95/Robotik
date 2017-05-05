@@ -1,4 +1,4 @@
-package uebung4;
+package uebung4.a;
 
 import lejos.nxt.LightSensor;
 import lejos.nxt.SensorPort;

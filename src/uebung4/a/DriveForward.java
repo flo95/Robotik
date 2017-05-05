@@ -1,4 +1,4 @@
-package uebung4;
+package uebung4.a;
 
 import lejos.robotics.subsumption.Behavior;
 import main.robotik.Driver;
