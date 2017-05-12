@@ -1,6 +1,6 @@
 package uebung4.b;
 
-import java.io.IOException;
+//import java.io.IOException;
 
 import lejos.nxt.Button;
 import lejos.nxt.comm.BTConnection;
@@ -24,6 +24,7 @@ public class TicTacToe {
 		boolean isTypSelected = false;
 		// while Schleife um den Typ zu bestimmen
 		// rechts -> Master, links -> Slave
+		System.out.println("Wählen Sie links für Slave und rechts für Master!");
 		while (!isTypSelected) {
 			if (Button.RIGHT.isDown()) {
 				handleMaster();
@@ -40,7 +41,6 @@ public class TicTacToe {
 	private static void handleSlave() {
 		// Auf Connection Warten
 		btConnector = Bluetooth.waitForConnection(0, NXTConnection.PACKET);
-		// TODO
 		while (!Button.ESCAPE.isDown()) {
 			readSlave();
 			try {
@@ -152,7 +152,7 @@ public class TicTacToe {
 			comm.write(toSend.getBytes());
 			read(comm);
 			// wait for answer;
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
