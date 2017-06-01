@@ -61,7 +61,7 @@ public class Uebung5 {
 			byte[] b = new byte[100];
 			int l = btConnector.readPacket(b, b.length);
 			String cmd = new String(b, 0, l);
-			System.out.println("empfangen : " + cmd);
+			System.out.println(counter + " : empfangen : " + cmd);
 			if (counter == 2) {
 				counter = 0;
 			} else {
