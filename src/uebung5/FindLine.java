@@ -21,8 +21,7 @@ public class FindLine implements Behavior {
 
 	@Override
 	public boolean takeControl() {
-		// System.out.println("takeControl : " +
-		// lightSensorListener.getCalculatedValue());
+		System.out.println("takeControl : " + lightSensorListener.getCalculatedValue());
 		if (lightSensorListener.getCalculatedValue() >= 0) {
 			counter = 0;
 		}
