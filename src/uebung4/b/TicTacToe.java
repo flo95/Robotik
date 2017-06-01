@@ -20,6 +20,7 @@ public class TicTacToe {
 	// private static NXTConnector nxtConnector;
 
 	public static void main(String[] args) {
+
 		// example Vorlesung
 		boolean isTypSelected = false;
 		// while Schleife um den Typ zu bestimmen
@@ -40,25 +41,20 @@ public class TicTacToe {
 
 	private static void handleSlave() {
 		// Auf Connection Warten
+		printGame();
+		System.out.println("Warte ...");
 		btConnector = Bluetooth.waitForConnection(0, NXTConnection.PACKET);
-		while (!Button.ESCAPE.isDown()) {
-			readSlave();
-			try {
-				byte[] b = new byte[100];
-				int l = btConnector.read(b, b.length);
-				String cmd = new String(b, 0, l);
-				System.out.println(cmd);
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-		}
+		// while (!Button.ESCAPE.isDown()) {
+		readSlave();
+		// }
 
 	}
 
 	private static void readSlave() {
 		try {
 			byte[] b = new byte[100];
-			int l = btConnector.read(b, b.length);
+			System.out.println("Warte auf Antwort ...");
+			int l = btConnector.readPacket(b, b.length);
 			String cmd = new String(b, 0, l);
 			field[Integer.valueOf(cmd) - 1] = "O";
 			printGame();
@@ -69,14 +65,15 @@ public class TicTacToe {
 	}
 
 	private static void writeSlave() {
+		System.out.println("Wählen Sie eine Position:");
 		int position = 0;
 		while (!Button.ENTER.isDown()) {
 			if (Button.RIGHT.isDown()) {
 				position++;
-				System.out.println(position);
+				System.out.print(position + " ");
 			} else if (Button.LEFT.isDown()) {
 				position--;
-				System.out.println(position);
+				System.out.print(position + " ");
 			}
 		}
 		String toSend = String.valueOf(position);
@@ -179,11 +176,12 @@ public class TicTacToe {
 		for (int i = 0; i < 9; i++) {
 			if (i % 3 == 0) {
 				sb.append(field[i] + "\n");
-				sb.append("----------");
+				sb.append("------\n");
 			} else {
-				sb.append(field[i] + " | ");
+				sb.append(field[i] + "|");
 			}
 		}
+		System.out.println(sb.toString());
 	}
 
 }
