@@ -37,13 +37,9 @@ public class LightSensorListener implements SensorPortListener {
 		} else {
 			x = aNewValue;
 			e = w - x;
-			PIDParameter parameter = new PIDParameter();
-			parameter.setKp(1);
-			parameter.setTn(0);
-			parameter.setTv(0);
-			calculatedValue = controller.calculate(parameter, w, x, System.currentTimeMillis() - lastCalculate, false);
+			calculatedValue = controller.calculate(PIDParameter.getInstance(), w, x, System.currentTimeMillis() - lastCalculate, false);
 			lastCalculate = System.currentTimeMillis();
-			// System.out.println("calculated : " + calculatedValue);
+			System.out.println("calculated : " + calculatedValue);
 		}
 	}
 

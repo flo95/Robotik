@@ -13,6 +13,10 @@ public class Uebung5 {
 	private static BTConnection btConnector = null;
 
 	public static void main(String[] args) {
+		PIDParameter parameter = PIDParameter.getInstance();
+		parameter.setKp(1);
+		parameter.setTn(0);
+		parameter.setTv(0);
 		LightSensorListener lightSensorListener = new LightSensorListener();
 		SensorPort.S1.addSensorPortListener(lightSensorListener);
 		Driver driver = Driver.getInstance();
@@ -54,18 +58,22 @@ public class Uebung5 {
 
 	private static void readSlave() {
 		int counter = 0;
+		PIDParameter parameter = PIDParameter.getInstance();
 		// counter = 0 -> Kp
 		// counter = 1 -> Tn
 		// counter = 2 -> Tv
 		while (!Button.ESCAPE.isDown()) {
 			byte[] b = new byte[100];
-			int l = btConnector.readPacket(b, b.length);
+			int l = btConnector.read(b, b.length);
 			String cmd = new String(b, 0, l);
-			System.out.println(counter + " : empfangen : " + cmd);
+			System.out.println(counter + " : " + cmd);
 			if (counter == 2) {
-				counter = 0;
-			} else {
-
+				parameter.setTv(Integer.valueOf(cmd));
+				counter = -1;
+			} else if (counter == 1) {
+				parameter.setTn(Integer.valueOf(cmd));
+			} else if (counter == 0) {
+				parameter.setKp(Integer.valueOf(cmd));
 			}
 			counter++;
 		}

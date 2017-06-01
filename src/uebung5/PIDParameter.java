@@ -5,6 +5,14 @@ public class PIDParameter {
 	private double Tn;
 	private double Kp;
 	private double Tv;
+	private static PIDParameter self;
+
+	public static PIDParameter getInstance() {
+		if (self == null) {
+			self = new PIDParameter();
+		}
+		return self;
+	}
 
 	public double getTn() {
 		return Tn;
