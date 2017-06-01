@@ -18,7 +18,8 @@ public class LightSensorListener implements SensorPortListener {
 	private int e;
 	private boolean endFindMittelwert;
 	private PIDController controller;
-	private double lastCalculate = 0;;
+	private double lastCalculate = 0;
+	private double calculatedValue;;
 
 	public LightSensorListener() {
 		firstStart = true;
@@ -40,9 +41,9 @@ public class LightSensorListener implements SensorPortListener {
 			parameter.setKp(1);
 			parameter.setTn(0);
 			parameter.setTv(0);
-			double calculate = controller.calculate(parameter, w, x, System.currentTimeMillis() - lastCalculate, false);
+			calculatedValue = controller.calculate(parameter, w, x, System.currentTimeMillis() - lastCalculate, false);
 			lastCalculate = System.currentTimeMillis();
-			System.out.println("calculated : " + calculate);
+			// System.out.println("calculated : " + calculatedValue);
 		}
 	}
 
@@ -75,6 +76,10 @@ public class LightSensorListener implements SensorPortListener {
 	public void endFindMittelwert(int mittelWert) {
 		this.endFindMittelwert = true;
 		this.w = mittelWert;
+	}
+
+	public double getCalculatedValue() {
+		return calculatedValue;
 	}
 
 }

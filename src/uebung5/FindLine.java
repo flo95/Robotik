@@ -1,41 +1,36 @@
 package uebung5;
 
-import lejos.nxt.LightSensor;
-import lejos.nxt.SensorPort;
 import lejos.robotics.subsumption.Behavior;
 import main.robotik.Driver;
 
 public class FindLine implements Behavior {
 
-	private LightSensor lightSensor;
-	private int border;
 	private Driver driver;
 	private int counter;
 	private int rotateBorder;
 	boolean lastWasRight;
+	private LightSensorListener lightSensorListener;
 
-	public FindLine() {
+	public FindLine(LightSensorListener lightSensorListener) {
 		driver = Driver.getInstance();
-		lightSensor = new LightSensor(SensorPort.S1);
-		border = 50;
 		counter = 0;
 		rotateBorder = 20;
 		lastWasRight = true;
+		this.lightSensorListener = lightSensorListener;
 	}
 
 	@Override
 	public boolean takeControl() {
-		if (lightSensor.getLightValue() < border) {
+		// System.out.println("takeControl : " +
+		// lightSensorListener.getCalculatedValue());
+		if (lightSensorListener.getCalculatedValue() >= 0) {
 			counter = 0;
 		}
-		return (lightSensor.getLightValue() < border) ? false : true;
+		return lightSensorListener.getCalculatedValue() < 0;
 	}
 
 	@Override
 	public void action() {
-		// System.out.println("light: " + lightSensor.getLightValue());
-		// System.out.println("counter: " + counter);
-		// System.out.println("last was right " + lastWasRight);
 		int degree = 3;
 		if (lastWasRight) {
 			if (counter < rotateBorder) {
@@ -57,11 +52,11 @@ public class FindLine implements Behavior {
 			}
 		}
 		counter++;
+
 	}
 
 	@Override
 	public void suppress() {
-		// System.out.println("findline end");
 		driver.stop();
 	}
 
