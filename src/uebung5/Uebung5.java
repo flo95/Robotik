@@ -13,10 +13,15 @@ public class Uebung5 {
 		System.out.println("min = " + lightSensorListener.getMin());
 		System.out.println("max = " + lightSensorListener.getMax());
 		int mittelWert = (lightSensorListener.getMax() + lightSensorListener.getMin()) / 2;
+		lightSensorListener.endFindMittelwert(mittelWert);
 		System.out.println("mittelwert = " + mittelWert);
 		// find start position
-		while (lightSensorListener.getAkutellerWert() != mittelWert) {
+		while (lightSensorListener.getAkutellerWert() <= mittelWert + 2
+				&& lightSensorListener.getAkutellerWert() >= mittelWert - 2) {
 			driver.rotateRightDegrees(1);
+		}
+		while (true) {
+			driver.forward();
 		}
 		// Behavior forward = new DriveForward();
 		// Behavior findLine = new FindLine();
