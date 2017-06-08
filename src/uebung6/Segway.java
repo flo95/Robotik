@@ -16,8 +16,14 @@ public class Segway {
 		Differentiator d = new Differentiator();
 		while (!Button.ESCAPE.isDown()) {
 			long func = System.currentTimeMillis();
-			float derivative = d.differentiate((float) func, Button.ENTER.isDown());
-			System.out.println(" Ableitung : " + derivative);
+			float derivative = d.differentiate(((float) func) / 1000, Button.ENTER.isDown());
+			System.out.println("Ab : " + derivative);
+			try {
+				Thread.sleep(25);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }
