@@ -7,10 +7,8 @@ import lejos.nxt.SensorPort;
 
 public class Segway {
 	public static void main(String[] args) {
-
 		GyroSensor sensor = new GyroSensor(SensorPort.S2);
 		PidController controller = new PidController();
-
 		PidParameter parameter = new PidParameter(18, (float) 0.15, (float) 0.05);
 		NXTMotor rechtsMotor = new NXTMotor(MotorPort.B);
 		NXTMotor linksMotor = new NXTMotor(MotorPort.C);
@@ -27,20 +25,19 @@ public class Segway {
 			} else if (result < -127) {
 				result = -126;
 			}
-
 			rechtsMotor.setPower(result);
 			linksMotor.setPower(result);
 			rechtsMotor.forward();
 			linksMotor.forward();
-
 			try {
-				Thread.sleep(10);
+				Thread.sleep(20);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		}
+
+		// 5 Kurven: Battery, Cycle Time, Gyro Angel, Offset, Motorwerte
+
 		// Integrator integrator = new Integrator();
 		// boolean reset = false;
 		// while (true) {
