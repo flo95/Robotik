@@ -11,7 +11,7 @@ public class Differentiator {
 	public float differentiate(float signal, boolean reset) {
 		if ((!reset)) {
 			float timeMillis = (float) System.currentTimeMillis();
-			float gradient = (signal + lastSignal) / ((timeMillis / 1000) - lastTime);
+			float gradient = (signal - lastSignal) / ((timeMillis / 1000) - lastTime);
 			lastSignal = signal;
 			lastTime = System.currentTimeMillis() / 1000;
 			return gradient;
@@ -20,6 +20,5 @@ public class Differentiator {
 			lastSignal = signal;
 			return 0;
 		}
-
 	}
 }
