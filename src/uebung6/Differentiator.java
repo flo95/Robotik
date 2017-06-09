@@ -9,14 +9,14 @@ public class Differentiator {
 	}
 
 	public float differentiate(float signal, boolean reset) {
+		float timeMillis = (float) System.currentTimeMillis() / 1000;
 		if ((!reset)) {
-			float timeMillis = (float) System.currentTimeMillis();
-			float gradient = (signal - lastSignal) / ((timeMillis / 1000) - lastTime);
+			float gradient = (signal - lastSignal) / ((timeMillis) - lastTime);
 			lastSignal = signal;
-			lastTime = System.currentTimeMillis() / 1000;
+			lastTime = timeMillis;
 			return gradient;
 		} else {
-			lastTime = System.currentTimeMillis() / 1000;
+			lastTime = timeMillis;
 			lastSignal = signal;
 			return 0;
 		}

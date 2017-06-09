@@ -1,9 +1,9 @@
 package uebung6;
 
 public class PidParameter {
-	float Kp = 11;
+	float Kp = 11; // 18
 	float Tn = (float) 0.15;
-	float Tv = (float) 0.06;
+	float Tv = (float) 0.06; // 0.05
 
 	public PidParameter() {
 	}
