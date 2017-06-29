@@ -19,9 +19,13 @@ public class Main {
 		UltrasonicSensor sensor = new UltrasonicSensor(SensorPort.S1);
 		throwBall = false;
 		while (true) {
+			// TODO Eimer suchen
 			int distance = sensor.getDistance();
 			System.out.println(distance);
 			if (distance < 20 && !throwBall) {
+				// TODO check Eimer oder Gegner?
+				// TODO ausrichten
+				// TODO werfen
 				Motor.A.stop();
 				Motor.B.stop();
 				throwBall();
