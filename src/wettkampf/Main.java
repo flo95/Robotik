@@ -4,6 +4,11 @@ import lejos.nxt.Button;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
+import lejos.robotics.objectdetection.Feature;
+import lejos.robotics.objectdetection.FeatureDetector;
+import lejos.robotics.objectdetection.FeatureListener;
+import lejos.robotics.objectdetection.RangeFeatureDetector;
+import main.robotik.Driver;
 import uebung3.UltraSonicSensorExtended;
 
 public class Main {
@@ -17,25 +22,42 @@ public class Main {
 		Motor.A.forward();
 		Motor.B.forward();
 		UltrasonicSensor sensor = new UltrasonicSensor(SensorPort.S1);
+		RangeFeatureDetector featureDetector = new RangeFeatureDetector(sensor, 255, 1);
+		featureDetector.addListener(new FeatureListener() {
+
+			@Override
+			public void featureDetected(Feature feature, FeatureDetector detector) {
+				int range = (int) feature.getRangeReading().getRange();
+				System.out.println(range);
+				if (range < 30 && !throwBall) {
+					Motor.A.setSpeed(150);
+					Motor.B.setSpeed(150);
+				}
+				if (range < 20 && !throwBall) {
+					Motor.A.stop();
+					Motor.B.stop();
+					// TODO check Eimer oder Gegner?
+					// TODO ausrichten
+					// TODO werfen
+					throwBall();
+					throwBall = true;
+				}
+				if (Button.RIGHT.isDown()) {
+					Motor.A.setSpeed(300);
+					Motor.B.setSpeed(300);
+					Motor.A.forward();
+					Motor.B.forward();
+					throwBall = false;
+				}
+
+				// TODO Auto-generated method stub
+			}
+		});
 		throwBall = false;
 		while (true) {
 			// TODO Eimer suchen
-			int distance = sensor.getDistance();
-			System.out.println(distance);
-			if (distance < 20 && !throwBall) {
-				// TODO check Eimer oder Gegner?
-				// TODO ausrichten
-				// TODO werfen
-				Motor.A.stop();
-				Motor.B.stop();
-				throwBall();
-				throwBall = true;
-			}
-			if (Button.RIGHT.isDown()) {
-				Motor.A.forward();
-				Motor.B.forward();
-				throwBall = false;
-			}
+			// int distance = sensor.getDistance();
+			// System.out.println(distance);
 		}
 	}
 
