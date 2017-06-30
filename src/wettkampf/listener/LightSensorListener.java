@@ -3,7 +3,6 @@ package wettkampf.listener;
 import lejos.nxt.LightSensor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.SensorPortListener;
-import main.robotik.Driver;
 
 public class LightSensorListener implements SensorPortListener {
 
@@ -18,7 +17,7 @@ public class LightSensorListener implements SensorPortListener {
 	public void stateChanged(SensorPort aSource, int aOldValue, int aNewValue) {
 		// TODO Auto-generated method stub
 		int light = lightSensor.getLightValue();
-		lastValue = aNewValue;
+		lastValue = light;
 	}
 
 	public int getLastValue() {

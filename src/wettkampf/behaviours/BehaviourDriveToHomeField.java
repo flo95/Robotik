@@ -1,5 +1,6 @@
 package wettkampf.behaviours;
 
+import lejos.nxt.Motor;
 import lejos.robotics.subsumption.Behavior;
 import wettkampf.Model;
 
@@ -18,6 +19,8 @@ public class BehaviourDriveToHomeField implements Behavior {
 	@Override
 	public void action() {
 		// TODO Auto-generated method stub
+		Motor.A.stop();
+		Motor.B.stop();
 		System.out.println("drive to home field");
 	}
 

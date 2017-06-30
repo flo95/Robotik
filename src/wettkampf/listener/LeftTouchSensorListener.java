@@ -3,19 +3,22 @@ package wettkampf.listener;
 import lejos.nxt.SensorPort;
 import lejos.nxt.SensorPortListener;
 import lejos.nxt.TouchSensor;
-import main.robotik.Driver;
+import wettkampf.Model;
 
 public class LeftTouchSensorListener implements SensorPortListener {
 	private TouchSensor left;
+	private Model model;
 
 	public LeftTouchSensorListener() {
 		left = new TouchSensor(SensorPort.S3);
+		model = Model.getInstance();
 	}
 
 	@Override
 	public void stateChanged(SensorPort aSource, int aOldValue, int aNewValue) {
 		if (left.isPressed()) {
 			System.out.println("left");
+			model.setTrashcanIsFound(true);
 		}
 	}
 
