@@ -10,6 +10,8 @@ public class Model {
 	private final int distance = 20;
 	private EnumTrashcanPosition position;
 	private boolean isStart;
+	private boolean trashcanIsFound = false;
+	private boolean driveToHomeField = false;
 
 	public static Model getInstance() {
 		if (self == null) {
@@ -69,6 +71,22 @@ public class Model {
 
 	public int getDistance() {
 		return distance;
+	}
+
+	public boolean isTrashcanIsFound() {
+		return trashcanIsFound;
+	}
+
+	public void setTrashcanIsFound(boolean trashcanIsFound) {
+		this.trashcanIsFound = trashcanIsFound;
+	}
+
+	public boolean isDriveToHomeField() {
+		return driveToHomeField;
+	}
+
+	public void setDriveToHomeField(boolean driveToHomeField) {
+		this.driveToHomeField = driveToHomeField;
 	}
 
 }
