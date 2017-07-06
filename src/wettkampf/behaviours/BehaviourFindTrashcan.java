@@ -121,7 +121,6 @@ public class BehaviourFindTrashcan implements Behavior {
 		UltrasonicSensor ultrasonicSensor = new UltrasonicSensor(SensorPort.S1);
 		while (s) {
 			int akt = ultrasonicSensor.getDistance();
-			System.out.println(" : " + akt);
 			if (!scanning) {
 				Motor.A.stop();
 				Motor.B.stop();
