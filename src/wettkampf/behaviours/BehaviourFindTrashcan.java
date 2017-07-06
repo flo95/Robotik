@@ -3,7 +3,6 @@ package wettkampf.behaviours;
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
 import lejos.robotics.subsumption.Behavior;
-import main.robotik.Driver;
 import wettkampf.Model;
 import wettkampf.listener.DistanceListener;
 import wettkampf.listener.LeftTouchSensorListener;

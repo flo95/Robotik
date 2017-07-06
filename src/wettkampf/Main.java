@@ -39,7 +39,7 @@ public class Main {
 		Behavior behaviorNewRound = new BehaviourNewRound();
 		Behavior behaviorTrashcan = new BehaviourFindTrashcan(distanceListener, rightTouchSensorListener,
 				leftTouchSensorListener);
-		Behavior behaviorDriveToHomeField = new BehaviourDriveToHomeField();
+		Behavior behaviorDriveToHomeField = new BehaviourDriveToHomeField(lightSensorListener);
 		Behavior behaviorTrashcanIsFoundThrowBall = new BehaviourTrashcanIsFoundThrowBall();
 		Behavior[] behaviorArray = { behaviorStart, behaviorNewRound, behaviorTrashcan,
 				behaviorTrashcanIsFoundThrowBall, behaviorDriveToHomeField };

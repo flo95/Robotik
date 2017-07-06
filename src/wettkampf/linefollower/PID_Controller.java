@@ -5,7 +5,7 @@ public class PID_Controller {
 	private Integrator integrator = null; 
 	private Differentiator differentiator = null;
 
-	PID_Controller() { 
+	public PID_Controller() { 
 		integrator = new Integrator(); 
 		differentiator = new Differentiator(); 
 	}
