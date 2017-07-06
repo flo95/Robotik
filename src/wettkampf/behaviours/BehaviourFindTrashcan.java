@@ -2,7 +2,9 @@ package wettkampf.behaviours;
 
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
+import lejos.nxt.SensorPort;
 import lejos.robotics.subsumption.Behavior;
+import uebung3.UltraSonicSensorExtended;
 import wettkampf.Model;
 import wettkampf.listener.DistanceListener;
 import wettkampf.listener.LeftTouchSensorListener;
@@ -14,6 +16,7 @@ public class BehaviourFindTrashcan implements Behavior {
 	private DistanceListener distanceListener;
 	private RightTouchSensorListener rightTouchSensorListener;
 	private LeftTouchSensorListener leftTouchSensorListener;
+
 	private boolean scanning;
 	private int min;
 
@@ -114,6 +117,7 @@ public class BehaviourFindTrashcan implements Behavior {
 		boolean s = true;
 		min = 255;
 		while (s) {
+			System.out.println("aktuell : " + distanceListener.getRange());
 			if (!scanning) {
 				Motor.A.stop();
 				Motor.B.stop();
