@@ -3,7 +3,9 @@ package wettkampf.behaviours;
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
+import lejos.nxt.UltrasonicSensor;
 import lejos.robotics.subsumption.Behavior;
+import uebung3.UltraSensorListener;
 import uebung3.UltraSonicSensorExtended;
 import wettkampf.Model;
 import wettkampf.listener.DistanceListener;
@@ -116,12 +118,14 @@ public class BehaviourFindTrashcan implements Behavior {
 		t.start();
 		boolean s = true;
 		min = 255;
+		UltrasonicSensor ultrasonicSensor = new UltrasonicSensor(SensorPort.S1);
 		while (s) {
-			System.out.println("aktuell : " + distanceListener.getRange());
+			int akt = ultrasonicSensor.getDistance();
+			System.out.println(" : " + akt);
 			if (!scanning) {
 				Motor.A.stop();
 				Motor.B.stop();
-				System.out.println("min: " + min);
+				System.out.println("m: " + min + " a: " + akt);
 			} else {
 				if (distanceListener.getRange() < min) {
 					min = distanceListener.getRange();
