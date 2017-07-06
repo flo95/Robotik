@@ -129,6 +129,15 @@ public class BehaviourFindTrashcan implements Behavior {
 				System.out.println(distanceListener.getRange());
 			}
 		}
+		Motor.A.backward();
+		Motor.B.forward();
+		t.start();
+		while(s) {
+			int actualPosition = distanceListener.getRange();
+			if (actualPosition == min){
+				break;
+			}
+		}
 	}
 
 	@Override
