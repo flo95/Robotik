@@ -20,7 +20,9 @@ public class BehaviourFindTrashcan implements Behavior {
 	private LeftTouchSensorListener leftTouchSensorListener;
 
 	private boolean scanning;
+	private boolean s;
 	private int min;
+	private UltrasonicSensor ultrasonicSensor;
 
 	public BehaviourFindTrashcan(DistanceListener distanceListener, RightTouchSensorListener rightTouchSensorListener,
 			LeftTouchSensorListener leftTouchSensorListener) {
@@ -40,13 +42,13 @@ public class BehaviourFindTrashcan implements Behavior {
 	@Override
 	public void action() {
 		Thread t = new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				try{
+				try {
 					Thread.sleep(1000);
-				} catch(InterruptedException e){
+				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
@@ -65,12 +67,52 @@ public class BehaviourFindTrashcan implements Behavior {
 		while (!model.isTrashcanIsFound()) {
 			Motor.A.forward();
 			Motor.B.forward();
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//Motor.A.stop();
+			//Motor.B.stop();
+			min = 255;
+			// rotate 45 degrees right
+			Motor.A.setSpeed(50);
+			Motor.B.setSpeed(50);
+			Motor.A.backward();
+			Motor.B.forward();
+			s = true;
+			Thread t1 = new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					try {
+						Thread.sleep(2500);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					s = false;
+				}
+			});
+			
+			t1.start();
+			while(s){
+				
+			}
+			scanArea();
+			Motor.A.setSpeed(300);
+			Motor.B.setSpeed(300);
+			
 			int range = distanceListener.getRange();
-			if (range < 30 && !throwBall) {
+			int distance = ultrasonicSensor.getDistance();
+			if (distance < 30 && !throwBall) {
 				Motor.A.setSpeed(150);
 				Motor.B.setSpeed(150);
 			}
-			if (range < model.getDistance() && !throwBall) {
+			// TODO warten bis tastsensor gedrückt wird
+			if (distance < model.getDistance() && !throwBall) {
 				Motor.A.stop();
 				Motor.B.stop();
 				// TODO check Eimer oder Gegner?
@@ -94,20 +136,35 @@ public class BehaviourFindTrashcan implements Behavior {
 	}
 
 	private void scanArea() {
-		// Thread sleep fÃ¼r eine Minute
-		// um nicht sofot den Abstand zu scannen
+		ultrasonicSensor = new UltrasonicSensor(SensorPort.S1);
+		ultrasonicSensor.getDistance();
+		min = 255;
+		
+		findMin(ultrasonicSensor);
+
+		if (min <= 150) {			
+			scanning = true;
+			findMinSecondTime(ultrasonicSensor);
+		} else {
+			findMin(ultrasonicSensor);
+			findMinSecondTime(ultrasonicSensor);
+		}
+	}
+
+	public void findMin(UltrasonicSensor ultrasonicSensor){
 		Motor.A.setSpeed(50);
 		Motor.B.setSpeed(50);
 		Motor.A.forward();
 		Motor.B.backward();
 		scanning = true;
+		s = true;
 		Thread t = new Thread(new Runnable() {
 
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
 				try {
-					Thread.sleep(2000);
+					Thread.sleep(2500);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -116,33 +173,58 @@ public class BehaviourFindTrashcan implements Behavior {
 			}
 		});
 		t.start();
-		boolean s = true;
 		min = 255;
-		UltrasonicSensor ultrasonicSensor = new UltrasonicSensor(SensorPort.S1);
 		while (s) {
 			int akt = ultrasonicSensor.getDistance();
 			if (!scanning) {
 				Motor.A.stop();
 				Motor.B.stop();
 				System.out.println("m: " + min + " a: " + akt);
+				break;
 			} else {
-				if (distanceListener.getRange() < min) {
-					min = distanceListener.getRange();
+				if (akt < min) {
+					min = akt;
 				}
-				System.out.println(distanceListener.getRange());
+				System.out.println(akt);
 			}
 		}
+	}
+	
+	public void findMinSecondTime(UltrasonicSensor ultrasonicSensor){
+		Motor.A.setSpeed(50);
+		Motor.B.setSpeed(50);
 		Motor.A.backward();
 		Motor.B.forward();
-		t.start();
-		while(s) {
-			int actualPosition = distanceListener.getRange();
-			if (actualPosition == min){
+		s = true;
+		Thread t1 = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+					Thread.sleep(2500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				s = false;
+			}
+		});
+		
+		t1.start();
+		
+		while (s) {
+			int actualPosition = ultrasonicSensor.getDistance();
+			if (actualPosition == min + 2 || actualPosition == min + 1 || actualPosition == min - 1
+					|| actualPosition == min - 2) {
+				System.out.println("gefunden");
+				Motor.A.stop();
+				Motor.B.stop();
 				break;
 			}
 		}
 	}
-
+	
 	@Override
 	public void suppress() {
 		Motor.A.stop();

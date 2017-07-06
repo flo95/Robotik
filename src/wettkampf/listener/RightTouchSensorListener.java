@@ -1,5 +1,6 @@
 package wettkampf.listener;
 
+import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.SensorPortListener;
 import lejos.nxt.TouchSensor;
@@ -19,6 +20,25 @@ public class RightTouchSensorListener implements SensorPortListener {
 	public void stateChanged(SensorPort aSource, int aOldValue, int aNewValue) {
 		if (rigth.isPressed()) {
 			System.out.println("rigth");
+			Motor.A.setSpeed(50);
+			Motor.B.setSpeed(50);
+			System.out.println("left");
+			Motor.A.backward();
+			Motor.B.backward();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Motor.A.backward();
+			Motor.B.forward();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			model.setTrashcanIsFound(true);
 		}
 	}
