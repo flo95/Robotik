@@ -39,6 +39,25 @@ public class BehaviourFindTrashcan implements Behavior {
 
 	@Override
 	public void action() {
+		Thread t = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try{
+					Thread.sleep(1000);
+				} catch(InterruptedException e){
+					e.printStackTrace();
+				}
+			}
+		});
+		t.start();
+		try {
+			t.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		scanArea();
 		Motor.A.setSpeed(300);
 		Motor.B.setSpeed(300);
@@ -77,8 +96,8 @@ public class BehaviourFindTrashcan implements Behavior {
 	private void scanArea() {
 		// Thread sleep für eine Minute
 		// um nicht sofot den Abstand zu scannen
-		Motor.A.setSpeed(100);
-		Motor.B.setSpeed(100);
+		Motor.A.setSpeed(50);
+		Motor.B.setSpeed(50);
 		Motor.A.forward();
 		Motor.B.backward();
 		scanning = true;
@@ -88,7 +107,7 @@ public class BehaviourFindTrashcan implements Behavior {
 			public void run() {
 				// TODO Auto-generated method stub
 				try {
-					Thread.sleep(3000);
+					Thread.sleep(2000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -123,3 +142,4 @@ public class BehaviourFindTrashcan implements Behavior {
 	}
 
 }
+//
