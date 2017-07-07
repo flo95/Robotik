@@ -39,11 +39,6 @@ public class BehaviourFindTrashCan_2 implements Behavior {
 		while (isDriving) {
 			// zur mitte fahren ca,
 			driveCentimeters(150);
-			for (int i = 0; i < 4; i++) {
-				// rotiere 4 mal 90 grad
-				rotate90Degrees();
-				
-			}
 		}
 		Motor.A.stop();
 		Motor.B.stop();
