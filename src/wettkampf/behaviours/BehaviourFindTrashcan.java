@@ -33,7 +33,8 @@ public class BehaviourFindTrashcan implements Behavior {
 		model = Model.getInstance();
 		// Sobald der Roboter loslegen kann
 		// TODO Auto-generated method stub
-		return !model.isStart();
+		// return !model.isStart();
+		return false;
 	}
 
 	@Override
@@ -274,11 +275,16 @@ public class BehaviourFindTrashcan implements Behavior {
 			int actualPosition = ultrasonicSensor.getDistance();
 			if (actualPosition <= min + 2 && actualPosition > min - 2 && actualPosition != 255) {
 				System.out.println("gefunden bei " + actualPosition);
-				Motor.A.stop();
-				Motor.B.stop();
 				// DEBUG
-				threadSleepForMilliSeconds(1000);
-				break;
+				actualPosition = ultrasonicSensor.getDistance();
+				if (actualPosition > 150) {
+					// rotate45DegreesLeft();
+				} else {
+					Motor.A.stop();
+					Motor.B.stop();
+					threadSleepForMilliSeconds(1000);
+					break;
+				}
 			}
 		}
 	}

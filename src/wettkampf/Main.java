@@ -6,6 +6,7 @@ import lejos.robotics.objectdetection.RangeFeatureDetector;
 import lejos.robotics.subsumption.Arbitrator;
 import lejos.robotics.subsumption.Behavior;
 import wettkampf.behaviours.BehaviourDriveToHomeField;
+import wettkampf.behaviours.BehaviourFindTrashCan_2;
 import wettkampf.behaviours.BehaviourFindTrashcan;
 import wettkampf.behaviours.BehaviourNewRound;
 import wettkampf.behaviours.BehaviourStart;
@@ -36,7 +37,7 @@ public class Main {
 
 		Behavior behaviorStart = new BehaviourStart(lightSensorListener);
 		Behavior behaviorNewRound = new BehaviourNewRound();
-		Behavior behaviorTrashcan = new BehaviourFindTrashcan(distanceListener, rightTouchSensorListener,
+		Behavior behaviorTrashcan = new BehaviourFindTrashCan_2(rightTouchSensorListener,
 				leftTouchSensorListener);
 		Behavior behaviorDriveToHomeField = new BehaviourDriveToHomeField(lightSensorListener);
 		Behavior behaviorTrashcanIsFoundThrowBall = new BehaviourTrashcanIsFoundThrowBall();
