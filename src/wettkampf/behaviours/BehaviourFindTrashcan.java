@@ -67,8 +67,11 @@ public class BehaviourFindTrashcan implements Behavior {
 			Motor.B.forward();
 			threadSleepForMilliSeconds(2500);
 			// s = true;
+			Motor.A.stop();
+			Motor.B.stop();
 
 			scanArea();
+			
 
 			Motor.A.setSpeed(300);
 			Motor.B.setSpeed(300);
