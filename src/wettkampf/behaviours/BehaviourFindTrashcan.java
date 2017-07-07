@@ -20,6 +20,7 @@ public class BehaviourFindTrashcan implements Behavior {
 	private boolean s;
 	private int min;
 	private UltrasonicSensor ultrasonicSensor;
+	private boolean stop;
 
 	public BehaviourFindTrashcan(DistanceListener distanceListener, RightTouchSensorListener rightTouchSensorListener,
 			LeftTouchSensorListener leftTouchSensorListener) {
@@ -71,7 +72,6 @@ public class BehaviourFindTrashcan implements Behavior {
 			Motor.B.stop();
 
 			scanArea();
-			
 
 			Motor.A.setSpeed(300);
 			Motor.B.setSpeed(300);
@@ -90,9 +90,9 @@ public class BehaviourFindTrashcan implements Behavior {
 				if (rightPressed && leftPressed) {
 
 				} else if (rightPressed) {
-					rightIsPressed();
+					// rightIsPressed();
 				} else if (leftPressed) {
-					leftIsPressed();
+					// leftIsPressed();
 				}
 				// TODO check Eimer oder Gegner?
 				// TODO ausrichten
@@ -100,6 +100,7 @@ public class BehaviourFindTrashcan implements Behavior {
 				model.setTrashcanIsFound(true);
 				// throwBall();
 				throwBall = true;
+				break;
 			}
 			if (Button.RIGHT.isDown()) {
 				Motor.A.setSpeed(300);
@@ -159,11 +160,28 @@ public class BehaviourFindTrashcan implements Behavior {
 	}
 
 	private void threadSleepForMilliSeconds(int ms) {
-		try {
-			Thread.sleep(ms);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		stop = false;
+		Thread thread = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(ms);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				stop = true;
+			}
+		});
+		thread.start();
+		while (!stop) {
+			boolean rightPressed = rightTouchSensorListener.getRigth().isPressed();
+			boolean leftPressed = leftTouchSensorListener.getLeft().isPressed();
+			if (rightPressed || leftPressed) {
+				Motor.A.stop();
+				Motor.B.stop();
+			}
 		}
 
 	}
@@ -190,6 +208,11 @@ public class BehaviourFindTrashcan implements Behavior {
 		rotate45DegreesLeft();
 		int akt = min;
 		while (scanning) {
+			boolean rightPressed = rightTouchSensorListener.getRigth().isPressed();
+			boolean leftPressed = leftTouchSensorListener.getLeft().isPressed();
+			if (rightPressed || leftPressed) {
+				break;
+			}
 			akt = ultrasonicSensor.getDistance();
 			if (akt < min) {
 				System.out.println("new min:" + akt);
@@ -224,12 +247,18 @@ public class BehaviourFindTrashcan implements Behavior {
 			}
 		});
 		t.start();
+
 	}
 
 	public void findMinSecondTimeRotateRight() {
 		s = true;
 		rotate45DegreesRight();
 		while (s) {
+			boolean rightPressed = rightTouchSensorListener.getRigth().isPressed();
+			boolean leftPressed = leftTouchSensorListener.getLeft().isPressed();
+			if (rightPressed || leftPressed) {
+				break;
+			}
 			int actualPosition = ultrasonicSensor.getDistance();
 			if (actualPosition <= min + 2 && actualPosition > min - 2 && actualPosition != 255) {
 				System.out.println("gefunden bei " + actualPosition);
