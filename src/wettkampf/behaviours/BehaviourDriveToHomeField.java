@@ -59,9 +59,9 @@ public class BehaviourDriveToHomeField implements Behavior {
 	public int[] calculateContrast() {
 		int lineColor = Model.getInstance().getLineColor();
 		int fieldColor = Model.getInstance().getFieldColor();
-		int radius = 0;
+		// int radius = 0;
 		Motor.A.setSpeed(400);
-		while (radius < 5000) {
+		/*while (radius < 5000) {
 			Motor.A.forward();
 			if (lightSensor.getLightValue() < lineColor) {
 				lineColor = lightSensor.getLightValue();
@@ -70,7 +70,7 @@ public class BehaviourDriveToHomeField implements Behavior {
 				fieldColor = lightSensor.getLightValue();
 			}
 			radius += 1;
-		}
+		}*/
 		Motor.A.stop();
 		int[] contrast = new int[2];
 		contrast[0] = lineColor;
