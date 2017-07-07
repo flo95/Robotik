@@ -39,7 +39,7 @@ public class BehaviourDriveToHomeField implements Behavior {
 		PID_Controller pc = new PID_Controller();
 		PID_Parameter pp = new PID_Parameter(100000, 75, 20);
 
-		while (!Button.ESCAPE.isPressed()) {
+		while (!Button.ESCAPE.isDown()) {
 
 			color = lightSensor.getLightValue();
 			double result = pc.calculate(pp, color, threshold, 1, true);

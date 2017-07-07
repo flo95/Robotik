@@ -18,7 +18,7 @@ public class LeftTouchSensorListener implements SensorPortListener {
 	@Override
 	public void stateChanged(SensorPort aSource, int aOldValue, int aNewValue) {
 		if (left.isPressed()) {
-			Motor.A.setSpeed(50);
+			/*Motor.A.setSpeed(50);
 			Motor.B.setSpeed(50);
 			System.out.println("left");
 			Motor.A.backward();
@@ -37,8 +37,18 @@ public class LeftTouchSensorListener implements SensorPortListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			model.setTrashcanIsFound(true);
+			model.setTrashcanIsFound(true);*/
 		}
 	}
+
+	public TouchSensor getLeft() {
+		return left;
+	}
+
+	public void setLeft(TouchSensor left) {
+		this.left = left;
+	}
+	
+	
 
 }

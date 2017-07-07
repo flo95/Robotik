@@ -5,8 +5,6 @@ import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 import lejos.robotics.subsumption.Behavior;
-import uebung3.UltraSensorListener;
-import uebung3.UltraSonicSensorExtended;
 import wettkampf.Model;
 import wettkampf.listener.DistanceListener;
 import wettkampf.listener.LeftTouchSensorListener;
@@ -15,7 +13,6 @@ import wettkampf.listener.RightTouchSensorListener;
 public class BehaviourFindTrashcan implements Behavior {
 	private static Model model;
 	private boolean throwBall;
-	private DistanceListener distanceListener;
 	private RightTouchSensorListener rightTouchSensorListener;
 	private LeftTouchSensorListener leftTouchSensorListener;
 
@@ -26,7 +23,6 @@ public class BehaviourFindTrashcan implements Behavior {
 
 	public BehaviourFindTrashcan(DistanceListener distanceListener, RightTouchSensorListener rightTouchSensorListener,
 			LeftTouchSensorListener leftTouchSensorListener) {
-		this.distanceListener = distanceListener;
 		this.rightTouchSensorListener = rightTouchSensorListener;
 		this.leftTouchSensorListener = leftTouchSensorListener;
 	}
@@ -41,86 +37,66 @@ public class BehaviourFindTrashcan implements Behavior {
 
 	@Override
 	public void action() {
-		Thread t = new Thread(new Runnable() {
+		ultrasonicSensor = new UltrasonicSensor(SensorPort.S1);
+		ultrasonicSensor.continuous();
+		// Thread schl√§ft um nicht sofort die Distanz zu messen
+		threadSleepForMilliSeconds(2000);
 
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		t.start();
-		try {
-			t.join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		scanArea();
+
 		Motor.A.setSpeed(300);
 		Motor.B.setSpeed(300);
+
 		// TODO find trashcan
 		while (!model.isTrashcanIsFound()) {
 			Motor.A.forward();
 			Motor.B.forward();
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			//Motor.A.stop();
-			//Motor.B.stop();
+
+			threadSleepForMilliSeconds(2000);
+
+			Motor.A.stop();
+			Motor.B.stop();
+
 			min = 255;
+
+			// rotate45DegreesRight();
 			// rotate 45 degrees right
 			Motor.A.setSpeed(50);
 			Motor.B.setSpeed(50);
 			Motor.A.backward();
 			Motor.B.forward();
-			s = true;
-			Thread t1 = new Thread(new Runnable() {
+			threadSleepForMilliSeconds(2500);
+			// s = true;
 
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					try {
-						Thread.sleep(2500);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					s = false;
-				}
-			});
-			
-			t1.start();
-			while(s){
-				
-			}
 			scanArea();
+
 			Motor.A.setSpeed(300);
 			Motor.B.setSpeed(300);
-			
-			int range = distanceListener.getRange();
+
 			int distance = ultrasonicSensor.getDistance();
-			if (distance < 30 && !throwBall) {
-				Motor.A.setSpeed(150);
-				Motor.B.setSpeed(150);
-			}
-			// TODO warten bis tastsensor gedr¸ckt wird
-			if (distance < model.getDistance() && !throwBall) {
+			// if (distance < 30 && !throwBall) {
+			// Motor.A.setSpeed(150);
+			// Motor.B.setSpeed(150);
+			// }
+			// TODO warten bis tastsensor gedrÔøΩckt wird
+			boolean rightPressed = rightTouchSensorListener.getRigth().isPressed();
+			boolean leftPressed = leftTouchSensorListener.getLeft().isPressed();
+			if (((rightPressed || leftPressed) || (rightPressed && leftPressed)) && !throwBall) {
 				Motor.A.stop();
 				Motor.B.stop();
+				if (rightPressed && leftPressed) {
+
+				} else if (rightPressed) {
+					rightIsPressed();
+				} else if (leftPressed) {
+					leftIsPressed();
+				}
 				// TODO check Eimer oder Gegner?
 				// TODO ausrichten
 				// TODO werfen
 				model.setTrashcanIsFound(true);
 				// throwBall();
-				// throwBall = true;
+				throwBall = true;
 			}
 			if (Button.RIGHT.isDown()) {
 				Motor.A.setSpeed(300);
@@ -135,29 +111,101 @@ public class BehaviourFindTrashcan implements Behavior {
 		}
 	}
 
-	private void scanArea() {
-		ultrasonicSensor = new UltrasonicSensor(SensorPort.S1);
-		ultrasonicSensor.getDistance();
-		min = 255;
-		
-		findMin(ultrasonicSensor);
-
-		if (min <= 150) {			
-			scanning = true;
-			findMinSecondTime(ultrasonicSensor);
-		} else {
-			findMin(ultrasonicSensor);
-			findMinSecondTime(ultrasonicSensor);
+	private void leftIsPressed() {
+		Motor.A.setSpeed(50);
+		Motor.B.setSpeed(50);
+		System.out.println("left");
+		Motor.A.backward();
+		Motor.B.backward();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Motor.A.forward();
+		Motor.B.backward();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
-	public void findMin(UltrasonicSensor ultrasonicSensor){
+	private void rightIsPressed() {
+		Motor.A.setSpeed(50);
+		Motor.B.setSpeed(50);
+		System.out.println("left");
+		Motor.A.backward();
+		Motor.B.backward();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Motor.A.backward();
+		Motor.B.forward();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void threadSleepForMilliSeconds(int ms) {
+		try {
+			Thread.sleep(ms);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private void scanArea() {
+		ultrasonicSensor.getDistance();
+		min = 255;
+
+		findMinRotateLeft();
+
+		if (min <= 150) {
+			scanning = true;
+			findMinSecondTimeRotateRight();
+		} else {
+			findMinRotateLeft();
+			findMinSecondTimeRotateRight();
+		}
+	}
+
+	public void findMinRotateLeft() {
+		scanning = true;
+		s = true;
+		min = 255;
+		rotate45DegreesLeft();
+		int akt = min;
+		while (scanning) {
+			akt = ultrasonicSensor.getDistance();
+			if (akt < min) {
+				System.out.println("new min:" + akt);
+				min = akt;
+			}
+			System.out.println(akt);
+		}
+		Motor.A.stop();
+		Motor.B.stop();
+		System.out.println("m: " + min + " a: " + akt);
+		// DEBUG
+		threadSleepForMilliSeconds(1000);
+	}
+
+	private void rotate45DegreesLeft() {
 		Motor.A.setSpeed(50);
 		Motor.B.setSpeed(50);
 		Motor.A.forward();
 		Motor.B.backward();
-		scanning = true;
-		s = true;
 		Thread t = new Thread(new Runnable() {
 
 			@Override
@@ -173,29 +221,29 @@ public class BehaviourFindTrashcan implements Behavior {
 			}
 		});
 		t.start();
-		min = 255;
+	}
+
+	public void findMinSecondTimeRotateRight() {
+		s = true;
+		rotate45DegreesRight();
 		while (s) {
-			int akt = ultrasonicSensor.getDistance();
-			if (!scanning) {
+			int actualPosition = ultrasonicSensor.getDistance();
+			if (actualPosition <= min + 2 && actualPosition > min - 2 && actualPosition != 255) {
+				System.out.println("gefunden bei " + actualPosition);
 				Motor.A.stop();
 				Motor.B.stop();
-				System.out.println("m: " + min + " a: " + akt);
+				// DEBUG
+				threadSleepForMilliSeconds(1000);
 				break;
-			} else {
-				if (akt < min) {
-					min = akt;
-				}
-				System.out.println(akt);
 			}
 		}
 	}
-	
-	public void findMinSecondTime(UltrasonicSensor ultrasonicSensor){
+
+	private void rotate45DegreesRight() {
 		Motor.A.setSpeed(50);
 		Motor.B.setSpeed(50);
 		Motor.A.backward();
 		Motor.B.forward();
-		s = true;
 		Thread t1 = new Thread(new Runnable() {
 
 			@Override
@@ -210,21 +258,9 @@ public class BehaviourFindTrashcan implements Behavior {
 				s = false;
 			}
 		});
-		
 		t1.start();
-		
-		while (s) {
-			int actualPosition = ultrasonicSensor.getDistance();
-			if (actualPosition == min + 2 || actualPosition == min + 1 || actualPosition == min - 1
-					|| actualPosition == min - 2) {
-				System.out.println("gefunden");
-				Motor.A.stop();
-				Motor.B.stop();
-				break;
-			}
-		}
 	}
-	
+
 	@Override
 	public void suppress() {
 		Motor.A.stop();

@@ -19,10 +19,10 @@ public class RightTouchSensorListener implements SensorPortListener {
 	@Override
 	public void stateChanged(SensorPort aSource, int aOldValue, int aNewValue) {
 		if (rigth.isPressed()) {
-			System.out.println("rigth");
+			/*System.out.println("rigth");
 			Motor.A.setSpeed(50);
 			Motor.B.setSpeed(50);
-			System.out.println("left");
+			System.out.println("rigth");
 			Motor.A.backward();
 			Motor.B.backward();
 			try {
@@ -39,7 +39,17 @@ public class RightTouchSensorListener implements SensorPortListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			model.setTrashcanIsFound(true);
+			model.setTrashcanIsFound(true);*/
 		}
 	}
+
+	public TouchSensor getRigth() {
+		return rigth;
+	}
+
+	public void setRigth(TouchSensor rigth) {
+		this.rigth = rigth;
+	}
+	
+	
 }
