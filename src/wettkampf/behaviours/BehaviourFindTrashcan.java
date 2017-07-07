@@ -97,6 +97,8 @@ public class BehaviourFindTrashcan implements Behavior {
 				// TODO check Eimer oder Gegner?
 				// TODO ausrichten
 				// TODO werfen
+				s = false;
+				scanning = false;
 				model.setTrashcanIsFound(true);
 				// throwBall();
 				throwBall = true;
@@ -181,6 +183,9 @@ public class BehaviourFindTrashcan implements Behavior {
 			if (rightPressed || leftPressed) {
 				Motor.A.stop();
 				Motor.B.stop();
+				scanning = false;
+				s = false;
+				model.setTrashcanIsFound(true);
 			}
 		}
 
@@ -211,6 +216,10 @@ public class BehaviourFindTrashcan implements Behavior {
 			boolean rightPressed = rightTouchSensorListener.getRigth().isPressed();
 			boolean leftPressed = leftTouchSensorListener.getLeft().isPressed();
 			if (rightPressed || leftPressed) {
+				scanning = false;
+				s = false;
+
+				model.setTrashcanIsFound(true);
 				break;
 			}
 			akt = ultrasonicSensor.getDistance();
@@ -257,6 +266,9 @@ public class BehaviourFindTrashcan implements Behavior {
 			boolean rightPressed = rightTouchSensorListener.getRigth().isPressed();
 			boolean leftPressed = leftTouchSensorListener.getLeft().isPressed();
 			if (rightPressed || leftPressed) {
+				scanning = false;
+				s = false;
+				model.setTrashcanIsFound(true);
 				break;
 			}
 			int actualPosition = ultrasonicSensor.getDistance();

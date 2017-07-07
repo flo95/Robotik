@@ -29,7 +29,7 @@ public class BehaviourDriveToHomeField implements Behavior {
 
 	@Override
 	public void action() {
-		System.out.println("drive to home fieldg");
+		System.out.println("drive to home field");
 		// TODO Auto-generated method stub
 		double color = 0;
 		int[] contrast = calculateContrast();
@@ -48,7 +48,8 @@ public class BehaviourDriveToHomeField implements Behavior {
 			Motor.A.forward();
 			Motor.B.setSpeed(new Double(275 + result).intValue());
 			Motor.B.forward();
-			if (lightSensor.getLightValue() == Model.getInstance().getHomeFieldColor()) {
+			if (lightSensor.getLightValue() <= Model.getInstance().getHomeFieldColor() + 2
+					|| lightSensor.getLightValue() >= Model.getInstance().getHomeFieldColor() - 2) {
 				Motor.A.stop();
 				Motor.B.stop();
 				break;
@@ -61,16 +62,13 @@ public class BehaviourDriveToHomeField implements Behavior {
 		int fieldColor = Model.getInstance().getFieldColor();
 		// int radius = 0;
 		Motor.A.setSpeed(400);
-		/*while (radius < 5000) {
-			Motor.A.forward();
-			if (lightSensor.getLightValue() < lineColor) {
-				lineColor = lightSensor.getLightValue();
-			}
-			if (lightSensor.getLightValue() > fieldColor) {
-				fieldColor = lightSensor.getLightValue();
-			}
-			radius += 1;
-		}*/
+		/*
+		 * while (radius < 5000) { Motor.A.forward(); if
+		 * (lightSensor.getLightValue() < lineColor) { lineColor =
+		 * lightSensor.getLightValue(); } if (lightSensor.getLightValue() >
+		 * fieldColor) { fieldColor = lightSensor.getLightValue(); } radius +=
+		 * 1; }
+		 */
 		Motor.A.stop();
 		int[] contrast = new int[2];
 		contrast[0] = lineColor;
