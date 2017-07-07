@@ -38,11 +38,65 @@ public class BehaviourFindTrashCan_2 implements Behavior {
 		// pi * 56
 		while (isDriving) {
 			// zur mitte fahren ca,
-			driveCentimeters(100);
+			driveCentimeters(150);
+			for (int i = 0; i < 4; i++) {
+				// rotiere 4 mal 90 grad
+				rotate90Degrees();
+				
+			}
 		}
 		Motor.A.stop();
 		Motor.B.stop();
+		isDriving = true;
+		while (isDriving) {
+			// zur mitte fahren ca,
+			for (int i = 0; i < 4; i++) {
+				// rotiere 4 mal 90 grad
+				rotate90Degrees();
+				
+			}
+		}
+		while (isDriving) {
+			// zur mitte fahren ca,
+			driveCentimeters(150);
+			for (int i = 0; i < 4; i++) {
+				// rotiere 4 mal 90 grad
+				rotate90Degrees();
+				Motor.A.stop();
+				Motor.B.stop();
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+
 		// TODO Auto-generated method stub
+
+	}
+
+	private void rotate90Degrees() {
+		// TODO Auto-generated method stub
+		Motor.A.setSpeed(50);
+		Motor.B.setSpeed(50);
+		Motor.A.forward();
+		Motor.B.backward();
+		Thread t = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		t.start();
 
 	}
 
@@ -75,12 +129,6 @@ public class BehaviourFindTrashCan_2 implements Behavior {
 						isDriving = false;
 					} else {
 						isDriving = true;
-					}
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
 				}
 			}
